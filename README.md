@@ -41,7 +41,7 @@ portfolio2026/
 │   ├── app.py
 │   ├── routes/
 │   └── .env (private, not included in public documentation)
-└── README.md (optional root-level summary if you add one later)
+└── README.md
 ```
 
 ## Local Preview
