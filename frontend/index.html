@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <!-- Primary Meta Tags -->
+    <title>Joshua Taiwo | Full-Stack Software Engineer & Instructor</title>
+    <meta name="title" content="Joshua Taiwo | Full-Stack Software Engineer & Instructor">
+    <meta name="description" content="Portfolio of Joshua Taiwo, a full-stack software developer and web development instructor specializing in Python, Flask, JavaScript, and modern web applications.">
+    <meta name="author" content="Joshua Taiwo">
+    <meta name="keywords" content="Full-Stack Developer, Full-Stack Engineer, Python Developer, Flask, JavaScript, Tailwind CSS, Web Development Instructor, Nigeria, Germany, United Kingdom">
+
+    <!-- Canonical URL (Update this once you deploy your custom domain) -->
+    <link rel="canonical" href="https://yourportfolio.com/">
+
+    <!-- Favicon / App Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/img/apple-touch-icon.png">
+    <!-- Alternatively, a simple root favicon.ico link: -->
+    <!-- <link rel="icon" href="/favicon.ico"> -->
+
+    <!-- Open Graph / Facebook / WhatsApp Preview Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourportfolio.com/">
+    <meta property="og:title" content="Joshua Taiwo | Full-Stack Software Developer & Instructor">
+    <meta property="og:description" content="Explore the projects, experience, and technical skills of Joshua Taiwo. Built with Python Flask, Tailwind CSS, and JavaScript.">
+    <meta property="og:image" content="https://yourportfolio.com/assets/images/preview-image.png">
+
+    <!-- Twitter Preview Meta Tags -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://yourportfolio.com/">
+    <meta property="twitter:title" content="Joshua Taiwo | Full-Stack Software Developer & Instructor">
+    <meta property="twitter:description" content="Explore the projects, experience, and technical skills of Joshua Taiwo. Built with Python Flask, Tailwind CSS, and JavaScript.">
+    <meta property="twitter:image" content="https://yourportfolio.com/assets/images/preview-image.png">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script nonce="{{ csp_nonce }}">
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom Styles -->
+     <link rel="stylesheet" href="./assets/styles/all.css">
+</head>
+<body class="bg-slate-950 text-slate-100 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col antialiased selection:bg-pink-500 selection:text-white">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-slate-950/80 dark:bg-slate-950/80 border-b border-slate-800/80 transition-colors">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <a href="#hero" class="text-xl font-bold tracking-tight hover:opacity-80 transition-opacity flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-pink-500 via-purple-600 to-sky-500 text-white flex items-center justify-center font-extrabold text-lg shadow-md shadow-pink-500/20">&lt;/&gt;</span>
+                    <span class="gradient-text font-black">Josh.dev</span>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+                    <a href="#about" class="hover:text-pink-400 transition-colors">About</a>
+                    <a href="#skills" class="hover:text-pink-400 transition-colors">Skills</a>
+                    <a href="#projects" class="hover:text-pink-400 transition-colors">Projects</a>
+                    <a href="#experience" class="hover:text-pink-400 transition-colors">Experience</a>
+                    <a href="#contact" class="hover:text-pink-400 transition-colors">Contact</a>
+                </nav>
+
+                <!-- Actions (Theme Toggle & Mobile Menu Button) -->
+                <div class="flex items-center gap-3">
+                    <button id="theme-toggle" type="button" aria-label="Toggle Theme" class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500">
+                        <i id="theme-toggle-dark-icon" class="fa-solid fa-moon text-lg hidden"></i>
+                        <i id="theme-toggle-light-icon" class="fa-solid fa-sun text-lg hidden"></i>
+                    </button>
+
+                    <!-- Mobile menu button -->
+                    <button id="mobile-menu-btn" type="button" aria-label="Open Menu" class="md:hidden p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800 transition-colors">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-slate-800 bg-slate-950 px-4 pt-2 pb-6 space-y-3 shadow-xl">
+            <a href="#about" class="mobile-nav-link block px-3 py-2 rounded-lg font-medium hover:bg-slate-800">About</a>
+            <a href="#skills" class="mobile-nav-link block px-3 py-2 rounded-lg font-medium hover:bg-slate-800">Skills</a>
+            <a href="#projects" class="mobile-nav-link block px-3 py-2 rounded-lg font-medium hover:bg-slate-800">Projects</a>
+            <a href="#experience" class="mobile-nav-link block px-3 py-2 rounded-lg font-medium hover:bg-slate-800">Experience</a>
+            <a href="#contact" class="mobile-nav-link block px-3 py-2 rounded-lg font-medium hover:bg-slate-800">Contact</a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- 1. HERO SECTION -->
+        <section id="hero" class="relative py-20 lg:py-28 overflow-hidden bg-cyber-gradient">
+            <!-- Background Glow Decor -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+            <div class="absolute top-1/3 right-10 w-80 h-80 bg-sky-500/20 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row items-center gap-12">
+                    
+                    <!-- Text Content -->
+                    <div class="flex-1 text-center lg:text-left space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-500/10 text-pink-400 text-sm font-semibold border border-pink-500/30">
+                            <span class="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
+                            Available for new opportunities
+                        </div>
+                        
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                            Building scalable web apps &amp; <span class="gradient-text">empowering developers.</span>
+                        </h1>
+                        
+                        <p class="text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                            Hi! I'm <strong class="text-white font-semibold">Joshua Taiwo</strong>, a Mid-level Full-Stack Engineer & Tech Instructor with 5+ years of experience crafting modern, resilient backend APIs with Python/Flask and fast, intuitive user interfaces.
+                        </p>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                            <a href="#projects" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white font-semibold shadow-lg shadow-pink-600/30 transition-all hover:-translate-y-0.5 active:translate-y-0">
+                                View Work <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                            </a>
+                            <a href="#contact" class="px-6 py-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-200 font-semibold transition-all hover:-translate-y-0.5 active:translate-y-0">
+                                Contact Me
+                            </a>
+                            <div class="flex items-center gap-2 pl-2">
+                                <a href="https://github.com/t-joshua" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-300 transition-colors">
+                                    <i class="fa-brands fa-github text-xl"></i>
+                                </a>
+                                <a href="https://linkedin.com/in/joshtaiwo" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-300 transition-colors">
+                                    <i class="fa-brands fa-linkedin text-xl"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Avatar / Visual Card -->
+                    <div class="flex-1 w-full max-w-md lg:max-w-none flex justify-center">
+                        <div class="relative group">
+                            <!-- Background Frame Glow -->
+                            <div class="absolute -inset-1 bg-gradient-to-r from-pink-500 via-sky-500 to-indigo-500 rounded-3xl blur-lg opacity-50 group-hover:opacity-80 transition duration-500"></div>
+                            
+                            <!-- Card Content -->
+                            <div class="relative bg-slate-900/90 border border-slate-800 p-6 sm:p-8 rounded-3xl shadow-2xl backdrop-blur-md">
+                                <div class="flex items-center gap-4 mb-6">
+                                    <img src="./assets/img/josh_avatar.png" alt="Joshua Taiwo Portfolio Avatar" class="w-16 h-16 rounded-2xl object-cover shadow-md border-2 border-pink-500">
+                                    <div>
+                                        <h3 class="font-bold text-lg text-white">Joshua Taiwo</h3>
+                                        <p class="text-sm text-pink-400 font-medium">Full Stack Engineer &amp; Instructor</p>
+                                    </div>
+                                </div>
+
+                                <!-- Mini Code Snippet Window -->
+                                <div class="bg-slate-950 rounded-xl p-4 font-mono text-xs text-slate-300 space-y-2 shadow-inner border border-slate-800/80">
+                                    <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2 text-slate-500 text-[10px]">
+                                        <div class="flex items-center gap-1.5">
+                                            <span class="w-2.5 h-2.5 rounded-full bg-pink-500/80"></span>
+                                            <span class="w-2.5 h-2.5 rounded-full bg-sky-500/80"></span>
+                                            <span class="w-2.5 h-2.5 rounded-full bg-indigo-500/80"></span>
+                                        </div>
+                                        <span>developer.py</span>
+                                    </div>
+                                    <p><span class="text-pink-400">class</span> <span class="text-sky-300">Developer</span>:</p>
+                                    <p class="pl-4"><span class="text-pink-400">def</span> <span class="text-sky-400">__init__</span>(self):</p>
+                                    <p class="pl-8 text-emerald-400">self.stack = ['Python', 'Flask', 'JS', 'SQL']</p>
+                                    <p class="pl-8 text-emerald-400">self.passion = 'Clean Code & Teaching'</p>
+                                    <p class="pl-4"><span class="text-pink-400">def</span> <span class="text-sky-400">create_impact</span>(self):</p>
+                                    <p class="pl-8"><span class="text-pink-300">return</span> <span class="text-sky-300">"Building high quality apps"</span></p>
+                                </div>
+
+                                <!-- Quick Highlight Badges -->
+                                <div class="grid grid-cols-3 gap-2 mt-6 pt-4 border-t border-slate-800 text-center">
+                                    <div>
+                                        <span class="block text-xl font-bold text-white">5+</span>
+                                        <span class="text-xs text-slate-400">Years Exp.</span>
+                                    </div>
+                                    <div>
+                                        <span class="block text-xl font-bold text-white">50+</span>
+                                        <span class="text-xs text-slate-400">Projects Done</span>
+                                    </div>
+                                    <div>
+                                        <span class="block text-xl font-bold text-white">1.5k+</span>
+                                        <span class="text-xs text-slate-400">Students Taught</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about" class="py-16 bg-slate-900/60 border-y border-slate-800/80">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center space-y-4">
+                    <h2 class="text-xs uppercase font-extrabold tracking-widest text-pink-400">About Me</h2>
+                    <p class="text-3xl font-bold text-white">Engineering backend robustness &amp; teaching frontend clarity.</p>
+                    <p class="text-slate-300 leading-relaxed text-base pt-2">
+                        I specialize in designing scalable full-stack applications with an emphasis on reliable database architectures, modular Python backends, and sleek client-side experiences. When I'm not coding software, I lead workshops and bootcamps empowering the next generation of software engineers.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. TECH STACK / SKILLS SECTION -->
+        <section id="skills" class="py-20">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+                    <h2 class="text-xs uppercase font-extrabold tracking-widest text-pink-400">Tech Stack &amp; Tools</h2>
+                    <h3 class="text-3xl font-bold text-white">Technologies I work with daily</h3>
+                    <p class="text-slate-400 text-sm">Filter by core category to see my technical toolkit.</p>
+                </div>
+
+                <!-- Category Filters -->
+                <div class="flex flex-wrap justify-center gap-2 mb-10" id="skill-filters">
+                    <button data-filter="all" class="filter-btn active px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-gradient-to-r from-pink-600 to-rose-600 text-white shadow-md shadow-pink-600/20">All Technologies</button>
+                    <button data-filter="languages" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800">Languages</button>
+                    <button data-filter="backend" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800">Backend &amp; DB</button>
+                    <button data-filter="frontend" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800">Frontend</button>
+                    <button data-filter="tools" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800">Tools &amp; IDEs</button>
+                </div>
+
+                <!-- Skills Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" id="skills-grid">
+                    <!-- Python -->
+                    <div class="skill-card" data-category="languages">
+                        <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-sm hover:border-pink-500/60 transition-all flex items-center gap-3">
+                            <i class="fa-brands fa-python text-2xl text-amber-400"></i>
+                            <div>
+                                <h4 class="font-bold text-sm text-white">Python</h4>
+                                <span class="text-xs text-slate-400">Advanced</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- JavaScript -->
+                    <div class="skill-card" data-category="languages">
+                        <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-sm hover:border-pink-500/60 transition-all flex items-center gap-3">
+                            <i class="fa-brands fa-js text-2xl text-yellow-400"></i>
+                            <div>
+                                <h4 class="font-bold text-sm text-white">JavaScript</h4>
+                                <span class="text-xs text-slate-400">Advanced</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Flask -->
+                    <div class="skill-card" data-category="backend">
+                        <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-sm hover:border-pink-500/60 transition-all flex items-center gap-3">
+                            <i class="fa-solid fa-pepper-hot text-2xl text-pink-500"></i>
+                            <div>
+                                <h4 class="font-bold text-sm text-white">Flask</h4>
+                                <span class="text-xs text-slate-400">Advanced</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- HTML5 / CSS3 -->
+                    <div class="skill-card" data-category="frontend">
+                        <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-sm hover:border-pink-500/60 transition-all flex items-center gap-3">
+                            <i class="fa-brands fa-html5 text-2xl text-rose-500"></i>
+                            <div>
+                                <h4 class="font-bold text-sm text-white">HTML5 / CSS3</h4>
+                                <span class="text-xs text-slate-400">Expert</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- MySQL -->
+                    <div class="skill-card" data-category="backend">
+                        <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-sm hover:border-pink-500/60 transition-all flex items-center gap-3">
+                            <i class="fa-solid fa-database text-2xl text-sky-400"></i>
+                            <div>
+                                <h4 class="font-bold text-sm text-white">MySQL</h4>
+                                <span class="text-xs text-slate-400">Intermediate</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- PostgreSQL -->
+                    <div class="skill-card" data-category="backend">
+                        <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-sm hover:border-pink-500/60 transition-all flex items-center gap-3">
+                            <i class="fa-solid fa-server text-2xl text-sky-500"></i>
+                            <div>
+                                <h4 class="font-bold text-sm text-white">PostgreSQL</h4>
+                                <span class="text-xs text-slate-400">Advanced</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Git & GitHub -->
+                    <div class="skill-card" data-category="tools">
+                        <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-sm hover:border-pink-500/60 transition-all flex items-center gap-3">
+                            <i class="fa-brands fa-git-alt text-2xl text-pink-500"></i>
+                            <div>
+                                <h4 class="font-bold text-sm text-white">Git / GitHub</h4>
+                                <span class="text-xs text-slate-400">Advanced</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- VS Code -->
+                    <div class="skill-card" data-category="tools">
+                        <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-sm hover:border-pink-500/60 transition-all flex items-center gap-3">
+                            <i class="fa-solid fa-code text-2xl text-sky-400"></i>
+                            <div>
+                                <h4 class="font-bold text-sm text-white">VS Code</h4>
+                                <span class="text-xs text-slate-400">Expert</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Cursor -->
+                    <div class="skill-card" data-category="tools">
+                        <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-sm hover:border-pink-500/60 transition-all flex items-center gap-3">
+                            <i class="fa-solid fa-wand-magic-sparkles text-2xl text-pink-400"></i>
+                            <div>
+                                <h4 class="font-bold text-sm text-white">Cursor AI</h4>
+                                <span class="text-xs text-slate-400">Daily User</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tailwind CSS -->
+                    <div class="skill-card" data-category="frontend">
+                        <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-sm hover:border-pink-500/60 transition-all flex items-center gap-3">
+                            <i class="fa-solid fa-wind text-2xl text-sky-400"></i>
+                            <div>
+                                <h4 class="font-bold text-sm text-white">Tailwind CSS</h4>
+                                <span class="text-xs text-slate-400">Expert</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. FEATURED PROJECTS SECTION -->
+        <section id="projects" class="py-20 bg-slate-900/40 border-t border-slate-800/80">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-14 space-y-3">
+                    <h2 class="text-xs uppercase font-extrabold tracking-widest text-pink-400">Featured Work</h2>
+                    <h3 class="text-3xl font-bold text-white">Recent projects &amp; systems</h3>
+                    <p class="text-slate-400 text-sm">Click any project card to view extra details and implementation architecture.</p>
+                </div>
+
+                <!-- Projects Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+                    <!-- Project 1 -->
+                    <div data-project-id="1" class="project-card group bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden shadow-md hover:shadow-pink-500/10 hover:border-pink-500/50 transition-all duration-300 flex flex-col cursor-pointer">
+                        <div class="relative overflow-hidden aspect-video bg-slate-950">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600" alt="DevFlow Dashboard" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                                <span class="px-3.5 py-1.5 rounded-lg bg-pink-600 text-xs font-bold text-white shadow">View Details</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="px-2.5 py-0.5 rounded-md bg-pink-500/10 text-pink-400 text-xs font-semibold">Flask</span>
+                                <span class="px-2.5 py-0.5 rounded-md bg-sky-500/10 text-sky-400 text-xs font-semibold">PostgreSQL</span>
+                            </div>
+                            <h4 class="text-xl font-bold text-white group-hover:text-pink-400 transition-colors">DevFlow Analytics Engine</h4>
+                            <p class="text-sm text-slate-400 mt-2 line-clamp-2">
+                                Real-time developer productivity suite featuring custom Flask REST endpoints, PostgreSQL data indexing, and interactive JavaScript charts.
+                            </p>
+                            <div class="mt-auto pt-6 flex items-center justify-between border-t border-slate-800">
+                                <span class="text-xs font-semibold text-pink-400 flex items-center gap-1">Details <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                                <div class="flex items-center gap-3">
+                                    <a href="https://github.com/t-joshua" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white transition-colors" title="GitHub Source"><i class="fa-brands fa-github text-lg"></i></a>
+                                    <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-pink-400 transition-colors" title="Live Preview"><i class="fa-solid fa-arrow-up-right-from-square text-sm"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div data-project-id="2" class="project-card group bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden shadow-md hover:shadow-pink-500/10 hover:border-pink-500/50 transition-all duration-300 flex flex-col cursor-pointer">
+                        <div class="relative overflow-hidden aspect-video bg-slate-950">
+                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=600" alt="CodeAcademy LMS Portal" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                                <span class="px-3.5 py-1.5 rounded-lg bg-pink-600 text-xs font-bold text-white shadow">View Details</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="px-2.5 py-0.5 rounded-md bg-amber-500/10 text-amber-400 text-xs font-semibold">Python</span>
+                                <span class="px-2.5 py-0.5 rounded-md bg-pink-500/10 text-pink-400 text-xs font-semibold">MySQL</span>
+                            </div>
+                            <h4 class="text-xl font-bold text-white group-hover:text-pink-400 transition-colors">EduPortal Instructor Hub</h4>
+                            <p class="text-sm text-slate-400 mt-2 line-clamp-2">
+                                Lightweight Learning Management Platform designed for coding bootcamps to track assignment submissions, grade scripts, and deliver live feedback.
+                            </p>
+                            <div class="mt-auto pt-6 flex items-center justify-between border-t border-slate-800">
+                                <span class="text-xs font-semibold text-pink-400 flex items-center gap-1">Details <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                                <div class="flex items-center gap-3">
+                                    <a href="https://github.com/t-joshua" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white transition-colors" title="GitHub Source"><i class="fa-brands fa-github text-lg"></i></a>
+                                    <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-pink-400 transition-colors" title="Live Preview"><i class="fa-solid fa-arrow-up-right-from-square text-sm"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div data-project-id="3" class="project-card group bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden shadow-md hover:shadow-pink-500/10 hover:border-pink-500/50 transition-all duration-300 flex flex-col cursor-pointer">
+                        <div class="relative overflow-hidden aspect-video bg-slate-950">
+                            <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=600" alt="QueryPulse SQL Visualizer" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                                <span class="px-3.5 py-1.5 rounded-lg bg-pink-600 text-xs font-bold text-white shadow">View Details</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="px-2.5 py-0.5 rounded-md bg-sky-500/10 text-sky-400 text-xs font-semibold">JavaScript</span>
+                                <span class="px-2.5 py-0.5 rounded-md bg-pink-500/10 text-pink-400 text-xs font-semibold">Tailwind</span>
+                            </div>
+                            <h4 class="text-xl font-bold text-white group-hover:text-pink-400 transition-colors">QueryPulse SQL Benchmarking</h4>
+                            <p class="text-sm text-slate-400 mt-2 line-clamp-2">
+                                Browser-based query performance benchmark tool comparing PostgreSQL and MySQL query execution plans with automated query optimization suggestions.
+                            </p>
+                            <div class="mt-auto pt-6 flex items-center justify-between border-t border-slate-800">
+                                <span class="text-xs font-semibold text-pink-400 flex items-center gap-1">Details <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                                <div class="flex items-center gap-3">
+                                    <a href="https://github.com/t-joshua" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white transition-colors" title="GitHub Source"><i class="fa-brands fa-github text-lg"></i></a>
+                                    <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-pink-400 transition-colors" title="Live Preview"><i class="fa-solid fa-arrow-up-right-from-square text-sm"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. EXPERIENCE / ABOUT SECTION -->
+        <section id="experience" class="py-20">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+                    <h2 class="text-xs uppercase font-extrabold tracking-widest text-pink-400">Career Journey</h2>
+                    <h3 class="text-3xl font-bold text-white">Experience &amp; Teaching Roles</h3>
+                    <p class="text-slate-400 text-sm">A timeline of my professional backend development and educational leadership.</p>
+                </div>
+
+                <div class="relative max-w-3xl mx-auto">
+                    <!-- Vertical Timeline Line -->
+                    <div id="experience-timeline-line" class="absolute left-4 md:left-1/2 top-0 w-0.5 bg-slate-800 -translate-x-1/2 pointer-events-none"></div>
+
+                    <div id="experience-list" class="space-y-12">
+                        <!-- Timeline Item 1 -->
+                        <div class="relative flex flex-col md:flex-row items-start group">
+                            <div class="flex items-center md:w-1/2 md:justify-end md:pr-8 mb-2 md:mb-0">
+                                <div class="pl-10 md:pl-0 md:text-right">
+                                    <span class="inline-block px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold mb-1 border border-pink-500/20">2026 - Present</span>
+                                    <h4 class="text-lg font-bold text-white">Tech Instructor II & Full-Stack Engineer</h4>
+                                    <p class="text-sm text-slate-400 font-medium">Tech&Co Hub</p>
+                                </div>
+                            </div>
+                            <div data-experience-marker class="absolute left-4 md:left-1/2 -translate-x-1/2 top-1.5 w-7 h-7 rounded-full border-4 border-slate-950 bg-pink-500 shadow-lg shadow-pink-500/50"></div>
+                            <div class="pl-10 md:pl-8 md:w-1/2">
+                                <p class="text-sm text-slate-300 leading-relaxed bg-slate-900/90 p-4 rounded-xl border border-slate-800 shadow-sm">
+                                    Teach frontend development and technology across multiple cohorts, guiding students in modern web technologies, responsive design, and project-based learning. I also build custom web applications and full-stack solutions for clients.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 2 -->
+                        <div class="relative flex flex-col md:flex-row items-start group">
+                            <div class="flex items-center md:w-1/2 md:justify-end md:pr-8 mb-2 md:mb-0 order-1 md:order-1">
+                                <div class="pl-10 md:pl-0 md:text-right">
+                                    <p class="text-sm text-slate-300 leading-relaxed bg-slate-900/90 p-4 rounded-xl border border-slate-800 shadow-sm hidden md:block">
+                                        Delivered end-to-end web application solutions for clients across multiple industries, building responsive interfaces, backend APIs, and database-driven features while translating business goals into scalable production-ready products.
+                                    </p>
+                                </div>
+                            </div>
+                            <div data-experience-marker class="absolute left-4 md:left-1/2 -translate-x-1/2 top-1.5 w-7 h-7 rounded-full border-4 border-slate-950 bg-sky-500 shadow-lg shadow-sky-500/50"></div>
+                            <div class="pl-10 md:pl-8 md:w-1/2 order-2 md:order-2">
+                                <div>
+                                    <span class="inline-block px-3 py-1 rounded-full bg-sky-500/10 text-sky-400 text-xs font-bold mb-1 border border-sky-500/20">2025 - Present</span>
+                                    <h4 class="text-lg font-bold text-white">Full-Stack Engineer</h4>
+                                    <p class="text-sm text-slate-400 font-medium">Upwork Freelancer</p>
+                                    <p class="text-sm text-slate-300 leading-relaxed bg-slate-900/90 p-4 rounded-xl border border-slate-800 shadow-sm mt-2 md:hidden">
+                                        Delivered end-to-end web application solutions for clients across multiple industries, building responsive interfaces, backend APIs, and database-driven features while translating business goals into scalable production-ready products.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 3 -->
+                        <div class="relative flex flex-col md:flex-row items-start group">
+                            <div class="flex items-center md:w-1/2 md:justify-end md:pr-8 mb-2 md:mb-0">
+                                <div class="pl-10 md:pl-0 md:text-right">
+                                    <span class="inline-block px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs font-bold mb-1 border border-purple-500/20">2024 - 2025</span>
+                                    <h4 class="text-lg font-bold text-white">Frontend Developer</h4>
+                                    <p class="text-sm text-slate-400 font-medium">CliqUp Social, UG</p>
+                                </div>
+                            </div>
+                            <div data-experience-marker class="absolute left-4 md:left-1/2 -translate-x-1/2 top-1.5 w-7 h-7 rounded-full border-4 border-slate-950 bg-purple-500 shadow-lg shadow-purple-500/50"></div>
+                            <div class="pl-10 md:pl-8 md:w-1/2">
+                                <p class="text-sm text-slate-300 leading-relaxed bg-slate-900/90 p-4 rounded-xl border border-slate-800 shadow-sm">
+                                    Contributed to CLIQup's social app by building a scalable Next.js and TypeScript web UI, while collaborating with development teams on code reviews, testing, and best practices to deliver user-centric solutions.
+                                </p>
+                            </div>
+                        </div>
+                                                
+
+                        <!-- Timeline Item 4 -->
+                        <div data-experience-extra hidden class="hidden relative flex flex-col md:flex-row items-start group">
+                            <div class="flex items-center md:w-1/2 md:justify-end md:pr-8 mb-2 md:mb-0 order-1 md:order-1">
+                                <div class="pl-10 md:pl-0 md:text-right">
+                                    <p class="text-sm text-slate-300 leading-relaxed bg-slate-900/90 p-4 rounded-xl border border-slate-800 shadow-sm hidden md:block">
+                                        Collaborated with senior developers and designers to build UI/UX prototypes, develop public-facing components, and integrate APIs, while conducting quality assurance testing to optimize usability.
+                                    </p>
+                                </div>
+                            </div>
+                            <div data-experience-marker class="absolute left-4 md:left-1/2 -translate-x-1/2 top-1.5 w-7 h-7 rounded-full border-4 border-slate-950 bg-sky-500 shadow-lg shadow-sky-500/50"></div>
+                            <div class="pl-10 md:pl-8 md:w-1/2 order-2 md:order-2">
+                                <div>
+                                    <span class="inline-block px-3 py-1 rounded-full bg-sky-500/10 text-sky-400 text-xs font-bold mb-1 border border-sky-500/20">2022 - 2023</span>
+                                    <h4 class="text-lg font-bold text-white">Frontend Developer (Intern)</h4>
+                                    <p class="text-sm text-slate-400 font-medium">ORTHOEX</p>
+                                    <p class="text-sm text-slate-300 leading-relaxed bg-slate-900/90 p-4 rounded-xl border border-slate-800 shadow-sm mt-2 md:hidden">
+                                        Collaborated with senior developers and designers to build UI/UX prototypes, develop public-facing components, and integrate APIs, while conducting quality assurance testing to optimize usability.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Timeline Item 5 -->
+                        <div data-experience-extra hidden class="hidden relative flex flex-col md:flex-row items-start group">
+                            <div class="flex items-center md:w-1/2 md:justify-end md:pr-8 mb-2 md:mb-0">
+                                <div class="pl-10 md:pl-0 md:text-right">
+                                    <span class="inline-block px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold mb-1 border border-pink-500/20">2021 - 2022</span>
+                                    <h4 class="text-lg font-bold text-white">Tech Instructor I</h4>
+                                    <p class="text-sm text-slate-400 font-medium">B.I.M.I.Technology</p>
+                                </div>
+                            </div>
+                            <div data-experience-marker class="absolute left-4 md:left-1/2 -translate-x-1/2 top-1.5 w-7 h-7 rounded-full border-4 border-slate-950 bg-pink-500 shadow-lg shadow-pink-500/50"></div>
+                            <div class="pl-10 md:pl-8 md:w-1/2">
+                                <p class="text-sm text-slate-300 leading-relaxed bg-slate-900/90 p-4 rounded-xl border border-slate-800 shadow-sm">
+                                    Instructed students in frontend web development fundamentals, Libraries and frameworks with hands-on projects.
+                                </p>
+                            </div>
+                        </div>
+                </div>
+                <div class="max-w-3xl mx-auto mt-10 text-center">
+                    <button id="experience-toggle" type="button" aria-expanded="false" aria-controls="experience-list" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white font-semibold shadow-lg shadow-pink-600/25 transition-all hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                        <span id="experience-toggle-label">View all experience</span>
+                        <i id="experience-toggle-icon" class="fa-solid fa-chevron-down text-xs transition-transform"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. INTERACTIVE CONTACT FORM -->
+        <section id="contact" class="py-20 bg-slate-900/40 border-t border-slate-800/80">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                    
+                    <!-- Contact Info -->
+                    <div class="space-y-6">
+                        <div>
+                            <h2 class="text-xs uppercase font-extrabold tracking-widest text-pink-400 mb-2">Get in Touch</h2>
+                            <h3 class="text-3xl font-bold text-white">Let's build something great together.</h3>
+                            <p class="text-slate-400 text-sm mt-3 leading-relaxed">
+                                Whether you have a project idea, want to discuss software consulting, or need an experienced instructor for a workshop, send me a message!
+                            </p>
+                        </div>
+
+                        <div class="space-y-4 pt-4">
+                            <div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm">
+                                <div class="w-12 h-12 rounded-xl bg-pink-500/10 text-pink-400 flex items-center justify-center text-xl shrink-0 border border-pink-500/20">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-slate-400 font-medium">Email</span>
+                                    <a href="mailto:t.joshua016@outlook.com" class="font-semibold text-white hover:text-pink-400 transition-colors">t.joshua016@outlook.com</a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm">
+                                <div class="w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center text-xl shrink-0 border border-sky-500/20">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-slate-400 font-medium">Location</span>
+                                    <span class="font-semibold text-white">Lagos, Nigeria (Available Remote)</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm">
+                                <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl shrink-0 border border-emerald-500/20">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-slate-400 font-medium">WhatsApp</span>
+                                    <a href="https://wa.me/2349024048231?text=Hello%20Joshua%2C%20I%27d%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer" class="font-semibold text-white hover:text-pink-400 transition-colors">Chat on WhatsApp</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form Card -->
+                    <div class="bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-xl">
+                        <form id="contact-form" class="space-y-4">
+                            <div aria-hidden="true" class="fixed -left-[10000px] top-auto h-px w-px overflow-hidden">
+                                <label for="website">Leave this field empty</label>
+                                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                            </div>
+                            <div>
+                                <label for="name" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">Your Name</label>
+                                <input type="text" id="name" name="name" autocomplete="name" maxlength="120" required placeholder="Jane Doe" class="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all text-sm">
+                            </div>
+
+                            <div>
+                                <label for="email" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">Your Email</label>
+                                <input type="email" id="email" name="email" autocomplete="email" maxlength="254" required placeholder="jane@example.com" class="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all text-sm">
+                            </div>
+
+                            <div>
+                                <label for="subject" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">Subject</label>
+                                <input type="text" id="subject" name="subject" maxlength="200" required placeholder="Project Inquiry / Hiring" class="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all text-sm">
+                            </div>
+
+                            <div>
+                                <label for="message" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">Message</label>
+                                <textarea id="message" name="message" rows="4" maxlength="5000" required placeholder="Tell me a bit about your project or goal..." class="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all text-sm resize-none"></textarea>
+                            </div>
+
+                            <button type="submit" id="submit-btn" class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white font-bold shadow-lg shadow-pink-600/25 transition-all flex items-center justify-center gap-2">
+                                <span>Send Message</span>
+                                <i class="fa-solid fa-paper-plane text-xs"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800/80 py-8 text-xs text-slate-400 text-center">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>&copy; 2026 Joshua Taiwo. Built with HTML, JS, Tailwind CSS &amp; Python.</p>
+            <div class="flex items-center gap-4">
+                <a href="https://github.com/t-joshua" target="_blank" rel="noopener noreferrer" class="hover:text-pink-400 transition-colors">GitHub</a>
+                <a href="https://linkedin.com/in/joshtaiwo" target="_blank" rel="noopener noreferrer" class="hover:text-pink-400 transition-colors">LinkedIn</a>
+                <a href="#hero" class="hover:text-pink-400 transition-colors">Back to Top &uarr;</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Project Details Modal -->
+    <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-slate-900 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-slate-800 shadow-2xl transform scale-95 transition-transform duration-300" id="modal-content-box">
+            <div class="p-6 sm:p-8 space-y-6">
+                <!-- Modal Header -->
+                <div class="flex items-start justify-between">
+                    <div>
+                        <span id="modal-badge" class="px-2.5 py-1 rounded-md text-xs font-bold bg-pink-500/10 text-pink-400 border border-pink-500/20">Category</span>
+                        <h3 id="modal-title" class="text-2xl font-bold text-white mt-2">Project Title</h3>
+                    </div>
+                    <button id="modal-close" type="button" class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="aspect-video rounded-2xl overflow-hidden bg-slate-950">
+                    <img id="modal-image" src="" alt="Project Detailed View" class="w-full h-full object-cover">
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="text-sm font-bold uppercase tracking-wider text-slate-400">Overview &amp; Architecture</h4>
+                    <p id="modal-description" class="text-sm text-slate-300 leading-relaxed">
+                        Full detailed description goes here.
+                    </p>
+                </div>
+
+                <div class="space-y-2">
+                    <h4 class="text-sm font-bold uppercase tracking-wider text-slate-400">Key Features</h4>
+                    <ul id="modal-features" class="list-disc list-inside text-sm text-slate-300 space-y-1">
+                        <!-- Dynamic List -->
+                    </ul>
+                </div>
+
+                <!-- Action Links -->
+                <div class="pt-4 border-t border-slate-800 flex items-center justify-end gap-3">
+                    <a id="modal-github" href="#" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold transition-colors flex items-center gap-2">
+                        <i class="fa-brands fa-github"></i> Repository
+                    </a>
+                    <a id="modal-live" href="#" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white text-sm font-semibold shadow-md transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./assets/scripts/main.js"></script>
+</body>
+</html>

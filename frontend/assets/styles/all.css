@@ -1,0 +1,88 @@
+
+body {
+     font-family: 'Inter', sans-serif;
+}
+/* Custom scrollbar */
+::-webkit-scrollbar {
+     width: 8px;
+}
+::-webkit-scrollbar-track {
+     background: rgba(15, 23, 42, 0.05);
+}
+.dark ::-webkit-scrollbar-track {
+     background: rgba(15, 23, 42, 0.5);
+}
+::-webkit-scrollbar-thumb {
+     background: #ec4899;
+     border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb {
+     background: #db2777;
+}
+::-webkit-scrollbar-thumb:hover {
+     background: #f43f5e;
+}
+/* Blue Black Pink Gradient animations */
+.gradient-text {
+     background: linear-gradient(135deg, #38bdf8 0%, #ec4899 50%, #f43f5e 100%);
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+}
+.bg-cyber-gradient {
+     background: radial-gradient(circle at 50% 0%, rgba(236, 72, 153, 0.15), rgba(15, 23, 42, 0) 60%),
+               linear-gradient(180deg, #020617 0%, #090d16 100%);
+}
+
+html:not(.dark) body {
+     color: #0f172a;
+}
+html:not(.dark) [class~="bg-slate-950"] {
+     background-color: #f8fafc;
+}
+html:not(.dark) [class~="bg-slate-950/80"] {
+     background-color: rgba(248, 250, 252, 0.88);
+}
+html:not(.dark) [class~="bg-slate-900"] {
+     background-color: #ffffff;
+}
+html:not(.dark) [class~="bg-slate-800"] {
+     background-color: #e2e8f0;
+}
+html:not(.dark) [class~="text-slate-100"],
+html:not(.dark) [class~="text-slate-200"],
+html:not(.dark) [class~="text-slate-300"] {
+     color: #334155;
+}
+html:not(.dark) [class~="text-slate-400"] {
+     color: #475569;
+}
+html:not(.dark) [class~="text-slate-500"] {
+     color: #64748b;
+}
+html:not(.dark) [class~="text-white"] {
+     color: #0f172a;
+}
+html:not(.dark) [class~="text-white"][class*="bg-gradient-to-"],
+html:not(.dark) [class~="text-white"][class~="bg-pink-600"] {
+     color: #ffffff;
+}
+html:not(.dark) [class~="border-slate-800"],
+html:not(.dark) [class~="border-slate-800/80"] {
+     border-color: #cbd5e1;
+}
+html:not(.dark) [class~="hover:text-white"]:hover {
+     color: #0f172a;
+}
+html:not(.dark) [class~="hover:bg-slate-800"]:hover {
+     background-color: #e2e8f0;
+}
+html:not(.dark) [class~="hover:bg-slate-700"]:hover {
+     background-color: #cbd5e1;
+}
+html:not(.dark) .bg-cyber-gradient {
+     background: radial-gradient(circle at 50% 0%, rgba(236, 72, 153, 0.1), transparent 60%),
+               linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+}
+html:not(.dark) ::-webkit-scrollbar-track {
+     background: rgba(226, 232, 240, 0.7);
+}
