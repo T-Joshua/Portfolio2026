@@ -107,6 +107,10 @@ def create_app(test_config=None):
                 "Strict-Transport-Security", "max-age=31536000"
             )
         return response
+    
+    @app.route('/health', methods=['GET'])
+    def health_check():
+        return "OK", 200
 
     @app.get("/")
     @app.get("/index.html")
