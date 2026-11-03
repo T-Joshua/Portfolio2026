@@ -16,6 +16,7 @@ from flask import Flask, g, jsonify, render_template, request
 from itsdangerous import BadSignature, URLSafeTimedSerializer
 import requests
 import resend
+from flask import make_response
 
 
 BACKEND_DIR = Path(__file__).resolve().parent
@@ -196,6 +197,30 @@ def create_app(test_config=None):
     def invalid_request(_error):
         return jsonify(error="Invalid request."), 400
 
+    @app.route('/sitemap.xml', methods=['GET'])
+    def sitemap():
+        """Generates an XML sitemap dynamically for Google Search Console."""
+        host_url = app.config.get('PUBLIC_ORIGIN') or "https://joshua-taiwo.onrender.com"
+
+        pages = [
+            {"loc": f"{host_url}/", "priority": "1.0"},
+        ]
+
+        xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
+        xml_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+
+        for page in pages:
+            xml_content += '  <url>\n'
+            xml_content += f'    <loc>{page["loc"]}</loc>\n'
+            xml_content += f'    <priority>{page["priority"]}</priority>\n'
+            xml_content += '  </url>\n'
+
+        xml_content += '</urlset>'
+
+        response = make_response(xml_content)
+        response.headers["Content-Type"] = "application/xml"
+        return response
+
     return app
 
 
@@ -361,7 +386,6 @@ def send_contact_email(config, contact):
     }
     
     return resend.Emails.send(params)
-
 
 app = create_app()
 
