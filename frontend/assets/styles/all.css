@@ -37,21 +37,35 @@ html:not(.dark) body {
      color: #0f172a;
 }
 html:not(.dark) [class~="bg-slate-950"] {
-     background-color: #f8fafc;
+     background-color: #F4F4F6;
+}
+html:not(.dark) [class~="bg-slate-950/60"] {
+     background-color: rgba(15, 23, 42, 0.6);
 }
 html:not(.dark) [class~="bg-slate-950/80"] {
-     background-color: rgba(248, 250, 252, 0.88);
+     background-color: rgba(244, 244, 246, 0.92);
 }
 html:not(.dark) [class~="bg-slate-900"] {
      background-color: #ffffff;
 }
+html:not(.dark) [class~="bg-slate-900/40"],
+html:not(.dark) [class~="bg-slate-900/60"] {
+     background-color: #eceef2;
+}
+html:not(.dark) [class~="bg-slate-900/80"],
+html:not(.dark) [class~="bg-slate-900/90"] {
+     background-color: #ffffff;
+}
 html:not(.dark) [class~="bg-slate-800"] {
-     background-color: #e2e8f0;
+     background-color: #e8e9ed;
+}
+html:not(.dark) [class~="bg-slate-700"] {
+     background-color: #e1e2e6;
 }
 html:not(.dark) [class~="text-slate-100"],
 html:not(.dark) [class~="text-slate-200"],
 html:not(.dark) [class~="text-slate-300"] {
-     color: #334155;
+     color: #475569;
 }
 html:not(.dark) [class~="text-slate-400"] {
      color: #475569;
@@ -67,22 +81,29 @@ html:not(.dark) [class~="text-white"][class~="bg-pink-600"] {
      color: #ffffff;
 }
 html:not(.dark) [class~="border-slate-800"],
-html:not(.dark) [class~="border-slate-800/80"] {
-     border-color: #cbd5e1;
+html:not(.dark) [class~="border-slate-800/80"],
+html:not(.dark) [class~="border-slate-950"],
+html:not(.dark) input,
+html:not(.dark) textarea,
+html:not(.dark) select {
+     border-color: #C6C6C6;
 }
 html:not(.dark) [class~="hover:text-white"]:hover {
      color: #0f172a;
 }
 html:not(.dark) [class~="hover:bg-slate-800"]:hover {
-     background-color: #e2e8f0;
+     background-color: #e8e9ed;
 }
 html:not(.dark) [class~="hover:bg-slate-700"]:hover {
-     background-color: #cbd5e1;
+     background-color: #e1e2e6;
 }
 html:not(.dark) .bg-cyber-gradient {
      background: radial-gradient(circle at 50% 0%, rgba(236, 72, 153, 0.1), transparent 60%),
-               linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+               linear-gradient(180deg, #F4F4F6 0%, #eceef2 100%);
+}
+html:not(.dark) #project-modal {
+     background-color: rgba(15, 23, 42, 0.65);
 }
 html:not(.dark) ::-webkit-scrollbar-track {
-     background: rgba(226, 232, 240, 0.7);
+     background: rgba(198, 198, 198, 0.35);
 }
